@@ -4,24 +4,52 @@ body{
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
-}
-body::before {
-    content: "";
-    background-image: url('/imgs/fondo-teclao.jpg');
-    background-size: contain;
+    background-image: url('/imgs/pawel-czerwinski-fPN1w7bIuNU-unsplash.jpg');
+    background-size: cover;
     background-position: center;
-    position: fixed;
-    top: 0;
-    left: 0;
+    background-repeat: no-repeat;
+ 
+}
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+header{
     width: 100%;
-    height: 100%;
-    z-index: -1; /* Coloca la capa por detrás del contenido del body */
-    opacity: 1;
+    height: .5rem;
+    margin-top: 1rem;
+}
+
+#control-volumen{
+    -webkit-appearance: none;
+    height: 3px;
+    width: 10%;
+    background-color: #ddd;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    margin: 0 1rem;
+}
+
+#imagen-volumen{
+    height: 2rem;
+    width: 2rem;
+
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 13px;
+    height: 13px;
+    background: var(--blue-light-opacity-1);
+    border-radius: 100%;
+    border: none;
 }
 
 h1{
-    color:var(--purple-light);
-    margin-top: 5rem;
+    color: #D9D9D9;
+    margin-top: 2rem;
     letter-spacing: 5px;
     font-size: 4rem;
     text-align: center;

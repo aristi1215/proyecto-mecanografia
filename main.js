@@ -7,10 +7,20 @@ let contadorPuntos = parseInt(document.getElementById("contador-puntos").textCon
 let corazon1 = document.getElementById("corazon1");
 let corazon2 = document.getElementById("corazon2");
 let corazon3 = document.getElementById("corazon3");
-let cantidadFallos = 0
+let cantidadFallos = 0;
+let contador = 0;
+let contadorGeneral = 0;
+let audioBotones = document.getElementById("boton-presionado");
+let botonCorrecto = document.getElementById("boton-correcto");
+let botonIncorrecto = document.getElementById("boton-incorrecto");
+let perdiste = document.getElementById("perdiste");
+let musicaJuego = document.getElementById("musica-juego");
+let controlVolumen = document.getElementById("control-volumen");
 
 
-
+controlVolumen.addEventListener("input",function(){
+    musicaJuego.volume = controlVolumen.value
+})
 
 
 botones.forEach(function(boton){
@@ -21,44 +31,52 @@ let indexAleatorio2 = Math.floor(Math.random()*botones.length);
 botones[indexAleatorio2].classList.add("pulso-clase");
 let currentboton = botones[indexAleatorio2];
 
-function cambiarDeBoton(e){
+
+function cambiarDeBoton(e){  
+    
     if(e.key.toLowerCase() == currentboton.id.toLowerCase()){
 
+        audioBotones.play()
         currentboton.classList.remove("pulso-clase");
-        let indiceAleatorio = Math.floor(Math.random()*botones.length);
         currentboton.removeEventListener("keydown",cambiarDeBoton);
+        let indiceAleatorio = Math.floor(Math.random()*botones.length);
         currentboton = botones[indiceAleatorio];
         currentboton.classList.add("pulso-clase");
         currentboton.addEventListener("keydown",cambiarDeBoton); 
         contadorPuntos += 10;
+        contador = 0
         console.log(contadorPuntos)
         document.getElementById("contador-puntos").textContent = contadorPuntos
 
     }else{
-        alert("Mala tuya")
+        
+        botonIncorrecto.play()
         currentboton.classList.remove("pulso-clase");
-        let indiceAleatorio = Math.floor(Math.random()*botones.length);
         currentboton.removeEventListener("keydown",cambiarDeBoton);
+        let indiceAleatorio = Math.floor(Math.random()*botones.length);
         currentboton = botones[indiceAleatorio];
         currentboton.classList.add("pulso-clase");
         currentboton.addEventListener("keydown",cambiarDeBoton);
-       
+        contador = 0
         cantidadFallos++
-        console.log(cantidadFallos)
 
         if(true){
             corazon1.src = "imgs/corazonVacio.png"
+            corazon1.classList.add("error-clase");
         }
 
         if(cantidadFallos == 2){
             corazon2.src = "imgs/corazonVacio.png"
+            corazon2.classList.add("error-clase");
         }
 
         if(cantidadFallos == 3){
             corazon3.src = "imgs/corazonVacio.png"
+            corazon1.classList.add("error-clase");
             contadorPuntos = 0
             document.getElementById("contador-puntos").textContent = contadorPuntos;
-            alert("you're dead")
+            perdiste.classList.add("mostrar")
+            
         }
     }
   
@@ -66,23 +84,56 @@ function cambiarDeBoton(e){
 }; 
 
 
-body.addEventListener("keydown",cambiarDeBoton);
+body.addEventListener("keydown",cambiarDeBoton)
 
+
+
+setInterval(()=>{
+    contadorGeneral++
+    console.log(contadorGeneral)
+},1000)
+
+let intervalo = setInterval(()=>{
+    contador++
+    console.log(contador)
+    if(contador == 6 && contadorGeneral >= 10){
+        contador= 0
+        currentboton.classList.remove("pulso-clase");
+        let indiceAleatorio = Math.floor(Math.random()*botones.length);
+        currentboton.removeEventListener("keydown",cambiarDeBoton);
+        currentboton = botones[indiceAleatorio];
+        currentboton.classList.add("pulso-clase");
+        currentboton.addEventListener("keydown",cambiarDeBoton);
+    }else if (contador == 4 && contadorGeneral >= 60){
+        contador= 0
+        currentboton.classList.remove("pulso-clase")
+        let indiceAleatorio = Math.floor(Math.random()*botones.length);
+        currentboton.removeEventListener("keydown",cambiarDeBoton);
+        currentboton = botones[indiceAleatorio];
+        currentboton.classList.add("pulso-clase");
+        currentboton.style.animationDuration = ".5s"
+        currentboton.addEventListener("keydown",cambiarDeBoton);
+    }else if(contador == 2 && contadorGeneral > 120){
+        contador= 0
+        currentboton.classList.remove("pulso-clase");
+        let indiceAleatorio = Math.floor(Math.random()*botones.length);
+        currentboton.removeEventListener("keydown",cambiarDeBoton);
+        currentboton = botones[indiceAleatorio];
+        currentboton.style.animationDuration = ".2s"
+        currentboton.classList.add("pulso-clase");
+        currentboton.addEventListener("keydown",cambiarDeBoton);
+    }
+},1000)
 
 
 window.addEventListener("keydown",function(e){
     console.log(e.key);
+    if(e.key == "Alt"){
+        e.preventDefault()
+    }
+    if(e.key == "AltGraph"){
+        e.preventDefault()
+    }
 })
 
 
-
-
-//boceto del intervalo de tiempo
-// function tecla (){    
-//     let indiceAleatorio = Math.floor(Math.random()*botones.length)
-//     botones[indiceAleatorio].classList.add("pulso-clase")
-// }
-
-// empezo.addEventListener("click",function(){
-//     IntervalGame = setInterval(tecla,10000)
-// })
