@@ -22,10 +22,6 @@ controlVolumen.addEventListener("input",function(){
     musicaJuego.volume = controlVolumen.value
 })
 
-
-
-
-
 botones.forEach(function(boton){
     boton.classList.add("key");
 });
